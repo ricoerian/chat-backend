@@ -127,4 +127,4 @@ func HandleMessages() {
 		}
 		wsServer.mutex.Unlock()
 	}
-}
+};
