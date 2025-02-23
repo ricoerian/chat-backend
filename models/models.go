@@ -13,6 +13,12 @@ type User struct {
 	Messages []Message `gorm:"foreignKey:SenderID"`
 }
 
+func (m *Message) BeforeCreate(tx *gorm.DB) (err error) {
+	loc, _ := time.LoadLocation("Asia/Jakarta")
+	m.CreatedAt = time.Now().In(loc)
+	return nil
+};
+
 type Message struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	SenderID  uint      `gorm:"not null" json:"sender_id"`
@@ -20,9 +26,3 @@ type Message struct {
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 }
-
-func (m *Message) BeforeCreate(tx *gorm.DB) (err error) {
-	loc, _ := time.LoadLocation("Asia/Jakarta")
-	m.CreatedAt = time.Now().In(loc)
-	return nil
-};
