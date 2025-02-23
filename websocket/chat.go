@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"sync"
-	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -98,16 +97,13 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Println("Received:", incomingMessage)
 
-		loc, _ := time.LoadLocation("Asia/Jakarta")
-		createdAtWIB := message.CreatedAt.In(loc).Format("2006-01-02 15:04:05")
-
 		// Format pesan yang akan dikirim ke client
 		outgoingMessage := OutgoingMessage{
 			ID:        message.ID,
 			SenderID:  message.SenderID,
 			Sender:    user.Username,
 			Content:   message.Content,
-			CreatedAt: createdAtWIB,
+			CreatedAt: message.CreatedAt.Format("2006-01-02 15:04:05"),
 		}
 
 		// Broadcast pesan ke semua client

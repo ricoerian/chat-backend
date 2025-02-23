@@ -14,10 +14,16 @@ type User struct {
 }
 
 type Message struct {
-	gorm.Model
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	SenderID  uint      `gorm:"not null" json:"sender_id"`
 	Sender    User      `gorm:"foreignKey:SenderID"`
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+// BeforeCreate hook untuk memastikan CreatedAt sesuai dengan WIB (GMT+7)
+func (m *Message) BeforeCreate(tx *gorm.DB) (err error) {
+	loc, _ := time.LoadLocation("Asia/Jakarta")
+	m.CreatedAt = time.Now().In(loc)
+	return nil
+};
