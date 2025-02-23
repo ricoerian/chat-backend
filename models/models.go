@@ -23,12 +23,8 @@ type Message struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// BeforeCreate: Set zona waktu sebelum menyimpan ke database
 func (m *Message) BeforeCreate(tx *gorm.DB) (err error) {
-	loc, err := time.LoadLocation("Asia/Jakarta") // Pastikan zona waktu benar
-	if err != nil {
-		return err
-	}
-	m.CreatedAt = time.Now().In(loc) // Set waktu sesuai zona waktu Indonesia
+	wib := time.FixedZone("WIB", 7*3600)
+	m.CreatedAt = time.Now().In(wib)
 	return nil
 }
