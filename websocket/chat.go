@@ -98,7 +98,6 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Println("Received:", incomingMessage)
 
-		// Konversi waktu ke zona WIB (GMT+7)
 		loc, _ := time.LoadLocation("Asia/Jakarta")
 		createdAtWIB := message.CreatedAt.In(loc).Format("2006-01-02 15:04:05")
 
@@ -132,4 +131,4 @@ func HandleMessages() {
 		}
 		wsServer.mutex.Unlock()
 	}
-};
+}
