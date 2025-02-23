@@ -21,7 +21,6 @@ type Message struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// BeforeCreate hook untuk memastikan CreatedAt sesuai dengan WIB (GMT+7)
 func (m *Message) BeforeCreate(tx *gorm.DB) (err error) {
 	loc, _ := time.LoadLocation("Asia/Jakarta")
 	m.CreatedAt = time.Now().In(loc)
